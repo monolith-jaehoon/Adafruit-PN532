@@ -87,14 +87,17 @@ byte pn532_packetbuffer[PN532_PACKBUFFSIZ]; ///< Packet buffer used in various
     @param  miso      SPI MISO pin
     @param  mosi      SPI MOSI pin
     @param  ss        SPI chip select pin (CS/SSEL)
+    @param  sclk      SPI clock
 */
 /**************************************************************************/
 Adafruit_PN532::Adafruit_PN532(uint8_t clk, uint8_t miso, uint8_t mosi,
-                               uint8_t ss) {
+                               uint8_t ss, uint32_t sclk) {
   _cs = ss;
-  spi_dev = new Adafruit_SPIDevice(ss, clk, miso, mosi, 1000000,
+  spi_dev = new Adafruit_SPIDevice(ss, clk, miso, mosi, sclk,
                                    SPI_BITORDER_LSBFIRST, SPI_MODE0);
 }
+
+
 
 /**************************************************************************/
 /*!
@@ -117,12 +120,13 @@ Adafruit_PN532::Adafruit_PN532(uint8_t irq, uint8_t reset, TwoWire *theWire)
     @brief  Instantiates a new PN532 class using hardware SPI.
 
     @param  ss        SPI chip select pin (CS/SSEL)
+    @param  sclk      SPI clock
     @param  theSPI    pointer to the SPI bus to use
 */
 /**************************************************************************/
-Adafruit_PN532::Adafruit_PN532(uint8_t ss, SPIClass *theSPI) {
+Adafruit_PN532::Adafruit_PN532(uint8_t ss, uint32_t sclk, SPIClass *theSPI) {
   _cs = ss;
-  spi_dev = new Adafruit_SPIDevice(ss, 1000000, SPI_BITORDER_LSBFIRST,
+  spi_dev = new Adafruit_SPIDevice(ss, sclk, SPI_BITORDER_LSBFIRST,
                                    SPI_MODE0, theSPI);
 }
 
